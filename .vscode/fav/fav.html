@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="fav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+   <div id="navPopup" class="navPopup" style="display: none;">
+        <div class="navPopupContent">
+            <a id="navMovie" href="#">Movies</a>
+            <a id="navTvshow" href="#">TV-Show</a>
+            <a id="navFav" href="#">Favourite</a>
+            <a id="navTheme" href="#">Theme (Dark)</a>
+        </div>
+   </div>
+    
+<div class="container">
+    <header id="header" class="header">
+        <i id="navIcon" class="fas fa-bars"></i>
+        <h3 class="headMovie">Movies</h3> 
+
+        <div id="searchContainer" class="search-container" style="display: none;">
+           <input type="text" id="search-input" class="search-input" placeholder="Search...">
+           <div id="search-results" class="search-results"></div>
+       </div>
+       <i id="searchIcon" class="fas fa-search"></i>
+        
+    </header>
+    <main>
+        <!-- Sections will be generated dynamically -->
+    </main>
+</div>
+   
+    <script src="fav.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
+
