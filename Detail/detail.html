@@ -3,163 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Movie details and reviews">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="description" content="Detailed information about movies and TV shows">
+    <title>Movie Details - CineHub</title>
     <link rel="stylesheet" href="detail.css">
-    <title>Movie Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main class="container">
-        <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="checkbox">
-                <input type="checkbox" id="checkbox" />
-                <div class="slider round">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </div>
-            </label>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button id="backButton" class="back-button" aria-label="Go back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <h1 class="logo">CineHub</h1>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
-        <!-- Hero Section with Movie Details -->
-        <section class="movie-hero" aria-label="Movie Information">
-            <div class="movie-poster">
-                <img id="moviePoster" src="1.jpg" alt="Movie Poster" loading="lazy" class="poster-image">
-                <div class="movie-rating">
-                    <i id="star" class="fas fa-star default-color"></i>
-                    <span class="rating-value"></span>
-                    <!-- <i id="heart" class="fa fa-heart default-color"></i> -->
-                </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Loading State -->
+        <div id="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading details...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="error-container" style="display: none;">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Oops! Something went wrong</h2>
+                <p>We couldn't load the details for this content.</p>
+                <button id="retryButton" class="retry-button">Try Again</button>
             </div>
+        </div>
 
-            <article class="movie-info">
-                <div class="movie-header">
-                    <h1 class="movie-title">
-                        <span class="title-text"></span>
-                        <span class="release-year"></span>
-                    </h1>
-                    <div class="movie-meta">
-                        <span class="duration"></span>
-                        <span class="genre"></span>
-                        <span class="rating"></span>
+        <!-- Content Details -->
+        <div id="contentDetails" class="content-details" style="display: none;">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-background">
+                    <img id="backdropImage" src="" alt="" class="backdrop-image">
+                    <div class="hero-overlay"></div>
+                </div>
+                
+                <div class="hero-content">
+                    <div class="poster-container">
+                        <img id="posterImage" src="" alt="" class="poster-image">
+                        <div class="rating-badge">
+                            <i class="fas fa-star"></i>
+                            <span id="ratingValue">0.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-container">
+                        <h1 id="contentTitle" class="content-title"></h1>
+                        <div class="meta-info">
+                            <span id="releaseYear" class="meta-item"></span>
+                            <span id="runtime" class="meta-item"></span>
+                            <span id="contentType" class="meta-item"></span>
+                        </div>
+                        <div id="genreList" class="genre-list"></div>
+                        <p id="overview" class="overview"></p>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-play"></i>
+                                Watch Now
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-plus"></i>
+                                Add to List
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-share"></i>
+                                Share
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="movie-synopsis">
-                    <h2>Synopsis</h2>
-                    <p class="synopsis-text"></p>
-                </div>
-
-                <div class="movie-actions">
-                    <button class="btn-watch" aria-label="Watch Now">
-                        <i class="fas fa-play"></i> Watch Now
-                    </button>
-                    <button class="btn-trailer" aria-label="Watch Trailer">
-                        <i class="fas fa-film"></i> Trailer
-                    </button>
-                    <button class="btn-watchlist watchlist-default-color" aria-label="Add to Watchlist">
-                        <i class="fas fa-plus"></i><span class="watchlist-text">Add to Watchlist</span>
-                    </button>
-                </div>
-            </article>
-        </section>
-
-        <!-- Reviews and Screenshots Section -->
-        <section class="movie-content">
-            <div class="content-wrapper">
-                <!-- Reviews Section -->
-                <article class="reviews-section">
-                    <header class="reviews-header">
-                        <h2>
-                            <i class="fas fa-comments"></i>
-                            Reviews
-                        </h2>
-                        <div class="review-stats">
-                            <div class="average-rating">
-                                <span class="rating-number"></span>
-                                <div class="star-rating"></div>
-                            </div>
-                            <span class="review-count"></span>
+            <!-- Additional Info Section -->
+            <section class="additional-info">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Cast & Crew</h3>
+                        <div id="castList" class="cast-list">
+                            <!-- Cast will be loaded here -->
                         </div>
-                    </header>
-
-                    <!-- Existing Reviews -->
-                    <div class="reviews-list">
-                        <article class="review-card">
-                            <header class="review-author">
-                                <div class="author-info">
-                                    <h3 class="author-name">Name</h3>
-                                    <time class="review-date" datetime="2024-01-10">January 10, 2024</time>
-                                </div>
-                                <div class="review-rating">
-                                    <i class="fas fa-star"></i>
-                                    <span id="rateSpan">4.5</span>
-                                </div>
-                            </header>
-                            <p id="reviewContent" class="review-content">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam obcaecati voluptatibus suscipit possimus illum id sunt laboriosam quod quo magnam dolorem, in dolor perspiciatis, libero inventore ab saepe. Impedit animi eaque repellat ex aperiam veniam neque voluptatum explicabo!
-                                <span class="review-update">(Updated)</span>
-                            </p>
-                            <div class="review-actions">
-                                <button id="btn-helpful" class="btn-helpful" aria-label="Mark as helpful">
-                                    <i class="fas fa-thumbs-up"></i>
-                                    Helpful
-                                </button>
-                                <button id="btn-report" class="btn-report" aria-label="Report review">
-                                    <i class="fas fa-flag"></i>
-                                </button>
-                            </div>
-                        </article>
                     </div>
-
-                    <!-- Review Form -->
-                    <form class="review-form" aria-label="Write a review">
-                        <h3>Write Your Review</h3>
-                        <div class="form-rating">
-                            <label>Your Rating:</label>
-                            <div class="star-input" role="radiogroup">
-                                <!-- Stars will be populated by JavaScript -->
+                    
+                    <div class="info-card">
+                        <h3>Details</h3>
+                        <div class="details-list">
+                            <div class="detail-item">
+                                <span class="detail-label">Director:</span>
+                                <span id="director" class="detail-value">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Language:</span>
+                                <span id="language" class="detail-value">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Budget:</span>
+                                <span id="budget" class="detail-value">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Revenue:</span>
+                                <span id="revenue" class="detail-value">Loading...</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="review-title">Rate</label>
-                            <input type="text" id="review-title" name="review-title" placeholder="Rate the movie . . ." required>
-                        </div>
-                        <div class="form-group">
-                            <label for="review">Your Thoughts</label>
-                            <textarea id="review" name="review" rows="4" placeholder="Share your thoughts about the movie..." required></textarea>
-                        </div>
-                        <button type="submit" id="btn-submit-review" class="btn-submit">Post Review</button>
-                    </form>
-                </article>
-
-                <!-- Screenshots Gallery -->
-                <article class="screenshots-section">
-                    <h2>
-                        <i class="fas fa-images"></i>
-                        Screenshots
-                    </h2>
-                    <div class="gallery-grid">
-                        <figure class="gallery-item">
-                            <img src="1.jpg" alt="Movie Screenshot 1" loading="lazy" onclick="openGallery(0)">
-                        </figure>
-                        <figure class="gallery-item">
-                            <img src="1.jpg" alt="Movie Screenshot 2" loading="lazy" onclick="openGallery(1)">
-                        </figure>
-                        <figure class="gallery-item">
-                            <img src="1.jpg" alt="Movie Screenshot 3" loading="lazy" onclick="openGallery(2)">
-                        </figure>
-                        <figure class="gallery-item">
-                            <img src="1.jpg" alt="Movie Screenshot 4" loading="lazy" onclick="openGallery(3)">
-                        </figure>
                     </div>
-                </article>
-            </div>
-        </section>
-        
-
+                </div>
+            </section>
+        </div>
     </main>
 
     <script src="detail.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
