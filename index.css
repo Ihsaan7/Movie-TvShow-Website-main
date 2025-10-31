@@ -74,12 +74,33 @@ body {
     background: var(--bg-overlay);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
-    justify-content: space-between;
     padding: 0 var(--container-padding);
     z-index: 1000;
     transition: all var(--transition-medium);
+}
+
+.header-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
 }
 
 .header.scrolled {
@@ -102,19 +123,13 @@ body {
 /* Page Title */
 .page-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--text-secondary);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
-
-/* Header Actions */
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    margin-top: -0.2rem;
 }
 
 /* Navigation Toggle */
@@ -660,18 +675,23 @@ body {
     
     .header {
         padding: 0 1rem;
+        grid-template-columns: auto 1fr auto;
     }
     
     .logo {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     .page-title {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
     
     .search-container {
-        width: 250px;
+        width: 200px;
+    }
+    
+    .search-container.mobile {
+        width: 100%;
     }
     
     .showcase {
@@ -762,19 +782,23 @@ a:focus {
 
 /* Light Theme */
 body.light-theme {
-    --bg-primary: #f8f9fa;
+    --bg-primary: #fafbfc;
     --bg-secondary: #ffffff;
-    --bg-tertiary: #e9ecef;
+    --bg-tertiary: #f1f3f4;
     --bg-card: #ffffff;
-    --bg-overlay: rgba(248, 249, 250, 0.95);
+    --bg-overlay: rgba(255, 255, 255, 0.95);
     
-    --text-primary: #212529;
-    --text-secondary: #495057;
-    --text-muted: #6c757d;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #757575;
     
-    --accent-primary: #dc3545;
-    --accent-secondary: #17a2b8;
-    --accent-hover: #c82333;
+    --accent-primary: #e91e63;
+    --accent-secondary: #2196f3;
+    --accent-hover: #c2185b;
+    
+    /* Light theme specific gradients */
+    --gradient-primary: linear-gradient(135deg, #e91e63 0%, #2196f3 100%);
+    --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
 }
 
 body.light-theme .search-input {
@@ -789,11 +813,28 @@ body.light-theme .search-input:focus {
 }
 
 body.light-theme .content-card {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 body.light-theme .content-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent-primary);
+}
+
+body.light-theme .header {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .nav-overlay {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.light-theme .search-results {
+    background: var(--bg-secondary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 /* Theme Toggle Animation */
@@ -929,6 +970,151 @@ body.theme-transition * {
     }
     
     .social-links {
+        justify-content: center;
+    }
+}
+
+/* Detail Modal Styles */
+.detail-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.detail-content {
+    background: var(--bg-card);
+    border-radius: 16px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow-large);
+}
+
+.detail-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    z-index: 1;
+    transition: all var(--transition-fast);
+}
+
+.detail-close:hover {
+    background: var(--accent-primary);
+    transform: scale(1.1);
+}
+
+.detail-header {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.detail-poster {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.detail-text {
+    flex: 1;
+}
+
+.detail-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.detail-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.detail-year,
+.detail-rating,
+.detail-runtime {
+    background: var(--bg-tertiary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.detail-overview {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.detail-genres {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.genre-tag {
+    background: var(--accent-primary);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Detail Modal Responsive */
+@media (max-width: 768px) {
+    .detail-modal {
+        padding: 1rem;
+    }
+    
+    .detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .detail-poster {
+        width: 150px;
+        height: 225px;
+    }
+    
+    .detail-title {
+        font-size: 1.5rem;
+    }
+    
+    .detail-meta {
         justify-content: center;
     }
 }
