@@ -3,31 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Showcase</title>
+    <meta name="description" content="Discover and explore the latest movies and TV shows with detailed information, ratings, and reviews.">
+    <meta name="keywords" content="movies, tv shows, entertainment, streaming, reviews">
+    <title>CineHub - Movies & TV Shows</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-   <div id="navPopup" class="navPopup" style="display: none;">
-        <div class="navPopupContent">
-            <a id="navMovie" href="#">Movies</a>
-            <a id="navTvshow" href="#">TV-Show</a>
-            <a id="navTheme" href="#">Theme (Dark)</a>
+   <!-- Navigation Overlay -->
+   <nav id="navPopup" class="nav-overlay" style="display: none;" aria-label="Main navigation">
+        <div class="nav-content">
+            <button id="closeNav" class="nav-close" aria-label="Close navigation">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a id="navMovie" href="#" role="button">Movies</a></li>
+                <li><a id="navTvshow" href="#" role="button">TV Shows</a></li>
+                <li><a id="navTheme" href="#" role="button">Theme (Dark)</a></li>
+            </ul>
         </div>
-   </div>
+   </nav>
 
    <div class="container">
+        <!-- Header -->
         <header id="header" class="header">
-            <i id="navIcon" class="fas fa-bars"></i>
-            <h3 class="headMovie">Movies</h3> 
-            <search id="searchContainer" class="search-container" style="display: none">
-                <input type="text" id="search-input" class="search-input" placeholder="Search...">
-            </search>
-            <i id="searchIcon" class="fas fa-search"></i>
+            <button id="navIcon" class="nav-toggle" aria-label="Open navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="logo">CineHub</h1>
+            <h2 class="page-title">Movies</h2> 
+            <div class="header-actions">
+                <div id="searchContainer" class="search-container" style="display: none">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search movies and TV shows..." aria-label="Search content">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <button id="searchIcon" class="search-toggle" aria-label="Toggle search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </header>
 
         <!-- Featured Showcase Section -->
@@ -42,285 +58,20 @@
             </div>
         </section>
 
-        <!-- Movie Categories Section -->
-        <section class="movie-categories">
-            <h2 class="category-title">Popular Movies</h2>
-            <div class="movie-grid">
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img data-content-name="Inception" id="movie1" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate1">Released: </p>
-                                <p id="movieGenre1">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle1" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie2" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate2">Released:</p>
-                                <p id="movieGenre2">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle2" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie3" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate3">Released:</p>
-                                <p id="movieGenre3">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <h3 id="movieTitle3" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie4" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate4">Released:</p>
-                                <p id="movieGenre4">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <h3 id="movieTitle4" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie5" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate5">Released:</p>
-                                <p id="movieGenre5">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <h3 id="movieTitle5" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie6" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate6">Released:</p>
-                                <p id="movieGenre6">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle6" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie7" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate7">Released:</p>
-                                <p id="movieGenre7">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle7" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie8" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate8">Released:</p>
-                                <p id="movieGenre8">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle8" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie9" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate9">Released:</p>
-                                <p id="movieGenre9">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle9" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie10" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate10">Released:</p>
-                                <p id="movieGenre10">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle10" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie11" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate11">Released:</p>
-                                <p id="movieGenre11">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle11" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie12" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate12">Released:</p>
-                                <p id="movieGenre12">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle12" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie13" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate13">Released:</p>
-                                <p id="movieGenre13">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle13" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie14" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate14">Released:</p>
-                                <p id="movieGenre14">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle14" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post1">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie15" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate15">Released:</p>
-                                <p id="movieGenre15">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle15" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie16" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate16">Released:</p>
-                                <p id="movieGenre16">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle16" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie17" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate17">Released:</p>
-                                <p id="movieGenre17">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle17" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-                
-                <section class="poster post2">
-                    <div class="postImg">
-                        <div class="postImg-inner">
-                            <div class="postImg-front">
-                                <img id="movie18" src="./img/1.jpg" alt="img1">
-                            </div>
-                            <div class="postImg-back">
-                                <p id="movieDate18">Released:</p>
-                                <p id="movieGenre18">Genre: </p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 id="movieTitle18" class="movieTitle">MOVIE TITLE</h3>
-                </section>
-            </div>
-        </section>
+        <!-- Content Section -->
+        <main class="main-content">
+            <section class="content-section">
+                <h2 class="section-title">Popular Movies</h2>
+                <div id="content-grid" class="content-grid">
+                    <!-- Content will be dynamically loaded here -->
+                </div>
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading content...</p>
+                </div>
+            </section>
+        </main>
+
     </div>
     <script src="index.js"></script>
 </body>
