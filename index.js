@@ -194,7 +194,7 @@ class CineHub {
         });
     }
     
-    async loadContent(type) {
+    async loadContent(type, retryCount = 0) {
         if (this.isLoading) return;
         
         this.isLoading = true;
@@ -214,11 +214,21 @@ class CineHub {
                 .filter(result => result.status === 'fulfilled' && result.value)
                 .map(result => result.value);
             
+            if (validContent.length === 0 && retryCount < 2) {
+                // Retry with different content if no results
+                setTimeout(() => this.loadContent(type, retryCount + 1), 1000);
+                return;
+            }
+            
             this.renderContent(validContent);
             
         } catch (error) {
             console.error('Error loading content:', error);
-            this.showError('Failed to load content. Please try again.');
+            if (retryCount < 2) {
+                setTimeout(() => this.loadContent(type, retryCount + 1), 2000);
+            } else {
+                this.showError('Failed to load content. <button onclick="location.reload()" style="background: var(--accent-primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-left: 1rem; cursor: pointer;">Retry</button>');
+            }
         } finally {
             this.isLoading = false;
             this.showLoading(false);
@@ -276,7 +286,7 @@ class CineHub {
     createContentCard(content) {
         const posterUrl = content.poster_path 
             ? `https://image.tmdb.org/t/p/w500${content.poster_path}`
-            : 'https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Image';
+            : `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect width='300' height='450' fill='%23${this.getRandomColor()}'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E${encodeURIComponent(content.title)}%3C/text%3E%3C/svg%3E`;
         
         const year = content.release_date ? new Date(content.release_date).getFullYear() : 'N/A';
         const rating = content.vote_average ? content.vote_average.toFixed(1) : 'N/A';
@@ -432,6 +442,31 @@ class CineHub {
     showError(message) {
         const contentGrid = document.getElementById('content-grid');
         contentGrid.innerHTML = `<div class="error-message">${message}</div>`;
+    }
+    
+    getRandomColor() {
+        const colors = ['1a1a2e', '16213e', '0f3460', '533483', '7209b7'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    // Performance optimization: Lazy loading images
+    setupLazyLoading() {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
     }
 }
 
