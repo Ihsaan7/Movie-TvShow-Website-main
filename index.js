@@ -179,7 +179,6 @@ class CineHub {
     
     setupScrollEffect() {
         const header = document.querySelector('.header');
-        let lastScroll = 0;
         
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
@@ -189,8 +188,6 @@ class CineHub {
             } else {
                 header.classList.remove('scrolled');
             }
-            
-            lastScroll = currentScroll;
         });
     }
     
@@ -412,86 +409,8 @@ class CineHub {
         localStorage.setItem('selectedContentId', contentId);
         localStorage.setItem('selectedContentType', contentType);
         
-        // Always try to navigate to detail page
-        this.navigateToDetailPage(contentId, contentType);
-    }
-    
-    async navigateToDetailPage(contentId, contentType) {
-        try {
-            // Check if Detail folder and detail.html exist
-            const response = await fetch('Detail/detail.html', { method: 'HEAD' });
-            if (response.ok) {
-                window.location.href = 'Detail/detail.html';
-            } else {
-                // Create a simple detail page if it doesn't exist
-                this.createDetailPage(contentId, contentType);
-            }
-        } catch (error) {
-            // If Detail folder doesn't exist, create a simple detail page
-            this.createDetailPage(contentId, contentType);
-        }
-    }
-    
-    createDetailPage(contentId, contentType) {
-        // Create a simple detail view in the current page
-        const detailHTML = `
-            <div id="detail-modal" class="detail-modal">
-                <div class="detail-content">
-                    <button class="detail-close" onclick="this.parentElement.parentElement.remove()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div id="detail-info" class="detail-info">
-                        <div class="loading">
-                            <div class="loading-spinner"></div>
-                            <p>Loading details...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', detailHTML);
-        this.loadDetailContent(contentId, contentType);
-    }
-    
-    async loadDetailContent(contentId, contentType) {
-        try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/${contentType}/${contentId}?api_key=${this.apiKey}&append_to_response=credits,videos`
-            );
-            const data = await response.json();
-            
-            const detailInfo = document.getElementById('detail-info');
-            const posterUrl = data.poster_path 
-                ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
-                : 'https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Image';
-            
-            const title = contentType === 'movie' ? data.title : data.name;
-            const releaseDate = contentType === 'movie' ? data.release_date : data.first_air_date;
-            const year = releaseDate ? new Date(releaseDate).getFullYear() : 'N/A';
-            
-            detailInfo.innerHTML = `
-                <div class="detail-header">
-                    <img src="${posterUrl}" alt="${title}" class="detail-poster">
-                    <div class="detail-text">
-                        <h1 class="detail-title">${title}</h1>
-                        <div class="detail-meta">
-                            <span class="detail-year">${year}</span>
-                            <span class="detail-rating">⭐ ${data.vote_average?.toFixed(1) || 'N/A'}</span>
-                            <span class="detail-runtime">${data.runtime || data.episode_run_time?.[0] || 'N/A'} min</span>
-                        </div>
-                        <p class="detail-overview">${data.overview || 'No description available.'}</p>
-                        <div class="detail-genres">
-                            ${data.genres?.map(genre => `<span class="genre-tag">${genre.name}</span>`).join('') || ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-        } catch (error) {
-            console.error('Error loading detail content:', error);
-            document.getElementById('detail-info').innerHTML = 
-                '<div class="error-message">Failed to load details. Please try again.</div>';
-        }
+        // Navigate directly to detail page
+        window.location.href = `Detail/detail.html?id=${contentId}&type=${contentType}`;
     }
     
     showLoading(show) {
