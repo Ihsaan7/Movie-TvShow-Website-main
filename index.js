@@ -58,6 +58,19 @@ class CineHub {
             this.toggleNavigation(false);
         });
         
+        // Footer links
+        document.getElementById('footerMovies')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.switchContentType('movie');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        document.getElementById('footerTvShows')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.switchContentType('tv');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
         // Search functionality
         this.setupSearch();
         
